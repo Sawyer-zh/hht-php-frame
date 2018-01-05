@@ -5,6 +5,7 @@
 	*/
 
     include 'HHTCore/Common/bootstrap.php';
+    include 'HHTCore/Controller/Controller.php';
 
     $app = isset($_GET['app']) ? $_GET['app'] : 'Home'; // 默认的应用是Home
     $controller = isset($_GET['c']) ? $_GET['c'] : 'Index'; // 默认的控制器是Home目录下的IndexController

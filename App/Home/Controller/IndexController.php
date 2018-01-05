@@ -1,8 +1,10 @@
 <?php
     namespace APP\Home\Controller;
 
-    class IndexController {
+    use HHTCore\Controller\Controller;
+
+    class IndexController extends Controller {
     	public function index () {
-    		echo 'index';
+    		$this->render();
     	}
     }
