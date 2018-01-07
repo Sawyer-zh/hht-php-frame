@@ -4,6 +4,7 @@
 	<title>Header index.php</title>
 </head>
 <body>
-Header index.php
+<?php echo $key1;?>
+<?php echo $key2;?>
 </body>
 </html>

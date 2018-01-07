@@ -5,6 +5,7 @@
 
     class IndexController extends Controller {
     	public function index () {
-    		$this->render('Header/index.php');
+    		$a = array('key1' => 'value1', 'key2' => 'value2');
+    		$this->render('Header/index.php', $a);
     	}
     }
