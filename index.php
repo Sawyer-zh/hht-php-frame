@@ -13,7 +13,7 @@
 
     $action = isset($_GET['a']) ? $_GET['a'] : 'index'; // 默认的方法是Home目录下的IndexController中的index
     
-    $file = APP_ROOT_PATH . '/' . $app . '/Controller/' . $controller . '.php';
+    $file = APPS_ROOT_PATH . '/' . $app . '/Controller/' . $controller . '.php';
 
     if (is_file($file)) {
     	include $file;
