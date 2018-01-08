@@ -62,7 +62,9 @@ App/Home/View
 
 你可以在`View`文件夹里面创建任意子目录。例如我在View里面建立一个Header目录，里面放一个视图文件`index.php`。
 
-#### 给视图文件传递变量
+#### 给视图文件传递变量并且显示视图
+
+##### render方法
 
 ```php
 class IndexController extends Controller {
@@ -88,3 +90,72 @@ class IndexController extends Controller {
 </html>
 ```
 
+### Model
+
+#### 配置数据库
+
+例如，在`App/项目/Conf/mysql.conf.php`文件中：
+
+```
+<?php
+
+return [
+'host' => '127.0.0.1', // 主机名(可以试试换成localhost可不可以)
+'dbname' => 'test', // 需要连接的数据库的名字
+'username' => 'root', // 用户名
+'password' => '' // 密码
+];
+```
+
+#### 实例化某张表的实例
+
+例如：
+
+```php
+<?php
+
+    namespace APP\Home\Model;
+
+    use HHTCore\Model\Model;
+
+    class UsersModel extends Model {
+
+    	public function __construct() {
+    		$this->instanceTable('users'); // 实例化某张表，就这么简单
+    	}
+    }
+```
+
+#### 使用框架自带的方法
+
+也就是使用框架核心代码`HHTCore/Model/Model.php`中的方法
+
+```php
+<?php
+    namespace APP\Home\Controller;
+
+    use HHTCore\Controller\Controller;
+    use APP\Home\Model\UsersModel;
+
+    class IndexController extends Controller {
+    	public function index () {
+    		$users = new UsersModel();
+    		$res = $users->get()->find(1);
+    		var_dump($res);
+    	}
+    }
+```
+
+注意，在使用了：
+
+```php
+$users = new UsersModel();
+```
+
+之后，需要使用：
+
+```php
+$users->get()
+```
+
+才能使用框架核心代码自带的方法。
