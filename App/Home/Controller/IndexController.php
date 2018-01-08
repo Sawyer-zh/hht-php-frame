@@ -1,12 +1,17 @@
 <?php
+
     namespace APP\Home\Controller;
 
     use HHTCore\Controller\Controller;
-    use HHTCore\Model\Model;
+    use APP\Home\Model\UsersModel;
 
     class IndexController extends Controller {
     	public function index () {
-    		$model = new Model();
+    		$users = new UsersModel();
+
+    		$res = $users->get()->find(1);
+    		var_dump($res);
+
     		$a = array('key1' => 'value1', 'key2' => 'value2');
     		$this->render('Header/index.php', $a);
     	}

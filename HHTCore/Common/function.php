@@ -23,6 +23,21 @@
 	    	echo 'error';
 	    }
     }
+
+    function autoLoadModel($classname) {
+    	$file_path = FRAME_ROOT_PATH . '/' . $classname . '.php';
+    	
+    	if (file_exists($file_path)) {
+    		include $file_path;
+    	}
+    	else {
+    		try {
+    		    throw new \Exception("Model don't find...");
+    		} catch (Exception $e) {
+    			echo 'Message:' . $e->getMessage() . PHP_EOL;
+    		}
+    	}
+    }
     
 	    
 
