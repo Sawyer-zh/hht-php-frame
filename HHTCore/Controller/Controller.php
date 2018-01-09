@@ -10,7 +10,7 @@
         }
 
     	public function render($view = '', $data = []) {
-    		$complete_path = $this->view_path .= '/' . $view;
+    		$complete_path = $this->view_path . '/' . $view;
 
     		if (is_file($complete_path)) {
 				ob_start(); // 页面缓存

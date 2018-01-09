@@ -26,7 +26,7 @@
 
 				try{
 					$this->pdo = new \PDO($dsn, $this->username, $this->password);
-				}catch(PDOException $e){
+				}catch(\PDOException $e){
 					echo 'database link fail:' . $e->getMessage();
 					exit;
 				}
