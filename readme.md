@@ -130,8 +130,22 @@ return [
 
 也就是使用框架核心代码`HHTCore/Model/Model.php`中的方法
 
+##### 读取数据
+
+假如我有一张数据表，叫作`users`：
+
+| id   | name | status |
+| ---- | ---- | ------ |
+| 1    | hht  | 1      |
+| 2    | hjm  | 1      |
+| 3    | zwx  | 1      |
+| 4    | lc   | 0      |
+
+比如说我想要查询`status`为1的记录：
+
 ```php
 <?php
+
     namespace APP\Home\Controller;
 
     use HHTCore\Controller\Controller;
@@ -140,11 +154,29 @@ return [
     class IndexController extends Controller {
     	public function index () {
     		$users = new UsersModel();
-    		$res = $users->get()->find(1);
+
+    		$res = $users->get()->where('status', '=', 1)->find();
     		var_dump($res);
+
+    		$a = array('key1' => 'value1', 'key2' => 'value2');
+    		$this->render('Header/index.php', $a);
     	}
     }
 ```
+
+如果，我想要查询`id`大于2的记录：
+
+```php
+$res = $users->get()->where('id', '>', 2)->find();
+```
+
+如果，我想要查询`id`大于2并且`id`小于4的记录：
+
+```php
+$res = $users->get()->where('id', '>', 2)->where('id', '<', 4)->find();
+```
+
+也就是说，查询条件与查询条件默认是`AND`的关系。
 
 注意，在使用了：
 
