@@ -92,6 +92,8 @@ class IndexController extends Controller {
 
 ### Model
 
+采用了数据访问对象模式
+
 #### 配置数据库
 
 例如，在`App/项目/Conf/mysql.conf.php`文件中：
@@ -107,9 +109,13 @@ return [
 ];
 ```
 
-#### 实例化某张表的实例
+#### 使用框架自带的方法
 
-例如：
+也就是使用框架核心代码`HHTCore/Model/Model.php`中的方法
+
+##### 创建与数据表对应的Model类
+
+假如我有一张数据表，叫作`users`：
 
 ```php
 <?php
@@ -119,20 +125,14 @@ return [
     use HHTCore\Model\Model;
 
     class UsersModel extends Model {
-
-    	public function __construct() {
-    		$this->instanceTable('users'); // 实例化某张表，就这么简单
-    	}
+    	protected $tbname = 'users'; // 设置数据表的名字（必须）
+    	protected $primary_key = 'id'; // 如果没有用到，可以不用设置
     }
 ```
 
-#### 使用框架自带的方法
-
-也就是使用框架核心代码`HHTCore/Model/Model.php`中的方法
-
 ##### 读取数据
 
-假如我有一张数据表，叫作`users`：
+假设`users`表有如下记录：
 
 | id   | name | status |
 | ---- | ---- | ------ |
@@ -155,7 +155,7 @@ return [
     	public function index () {
     		$users = new UsersModel();
 
-    		$res = $users->get()->where('status', '=', 1)->find();
+    		$res = $users->where('status', '=', 1)->find();
     		var_dump($res);
 
     		$a = array('key1' => 'value1', 'key2' => 'value2');
@@ -167,27 +167,13 @@ return [
 如果，我想要查询`id`大于2的记录：
 
 ```php
-$res = $users->get()->where('id', '>', 2)->find();
+$res = $users->where('id', '>', 2)->find();
 ```
 
 如果，我想要查询`id`大于2并且`id`小于4的记录：
 
 ```php
-$res = $users->get()->where('id', '>', 2)->where('id', '<', 4)->find();
+$res = $users->where('id', '>', 2)->where('id', '<', 4)->find();
 ```
 
 也就是说，查询条件与查询条件默认是`AND`的关系。
-
-注意，在使用了：
-
-```php
-$users = new UsersModel();
-```
-
-之后，需要使用：
-
-```php
-$users->get()
-```
-
-才能使用框架核心代码自带的方法。
