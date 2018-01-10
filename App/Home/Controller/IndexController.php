@@ -9,7 +9,7 @@
     	public function index () {
     		$users = new UsersModel();
 
-    		$res = $users->get()->where('id', '>', 2)->find();
+    		$res = $users->where('id', '>', 2)->find();
     		var_dump($res);
 
     		$a = array('key1' => 'value1', 'key2' => 'value2');

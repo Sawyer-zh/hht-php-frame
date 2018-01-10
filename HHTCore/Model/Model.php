@@ -2,17 +2,15 @@
 
     namespace HHTCore\Model;
 
-    class Model {
+    abstract class Model {
     	private $host = '';
     	private $dbname = '';
     	private $username = '';
     	private $password = '';
     	private $pdo = null;
-    	private $tbname = '';
-    	private $tb_object = null;
         private $where = '';
 
-    	public function __construct($tb = '') {
+    	public function __construct() {
             // 连接数据库部分
     		if($this->pdo == null){
     			// 获取用户配置的数据库参数
@@ -32,25 +30,8 @@
 					exit;
 				}
 			}
-
-			if (empty($tb)) {
-				exit("you should commit the table name");
-			}
-			else {
-				$this->tbname = $tb;
-			}
     	}
         
-        /*
-        作用：获得$tbname表的实例
-        */
-    	public function instanceTable($tbname) {
-    		$this->tb_object = new Model($tbname);
-    	}
-
-    	public function get() {
-    		return $this->tb_object;
-    	}
         
         /*
         作用：查找满足条件$this->where的那条记录
