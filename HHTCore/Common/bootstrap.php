@@ -15,9 +15,8 @@
     defined('APP_NAME') or define('APP_NAME', isset($_GET['app']) ? $_GET['app'] : 'Home');
 
     include 'HHTCore/Controller/Controller.php';
-    include 'function.php';
     include SYS_ROOT_PATH . '/Model/Model.php';
-
+    include 'HHT.php';
 
     // 自动添加Model类文件
-    spl_autoload_register('autoLoadModel');
+    spl_autoload_register('HHTCore\Common\HHT::autoLoadModel');

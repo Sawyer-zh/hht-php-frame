@@ -6,5 +6,5 @@
 
     include 'HHTCore/Common/bootstrap.php';
 
-    runApp();
+    HHTCore\Common\HHT::runApp();
 
