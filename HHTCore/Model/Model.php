@@ -3,13 +3,14 @@
     namespace HHTCore\Model;
 
     class Model {
-    	private $host;
-    	private $dbname;
-    	private $username;
-    	private $password;
+    	private $host = '';
+    	private $dbname = '';
+    	private $username = '';
+    	private $password = '';
     	private $pdo = null;
-    	private $tbname;
-    	private $tb_object;
+    	private $tbname = '';
+    	private $tb_object = null;
+        private $where = '';
 
     	public function __construct($tb = '') {
             // 连接数据库部分
@@ -52,17 +53,44 @@
     	}
         
         /*
-        作用：查找主键为$id的那条记录
+        作用：查找满足条件$this->where的那条记录
+
         */
-    	public function find($id) {
-    		if ($id <= 0) {
-    			exit('please commit the correct id');
-    		}
+    	public function find() {
+            if (empty($this->where)) {
+                exit('please input the condition of query');
+            }
 
-    		$sql = 'SELECT * FROM ' . $this->tbname . ' WHERE id = ' . $id;
+    		$sql = 'SELECT * FROM ' . $this->tbname . $this->where;
     		$stmt = $this->pdo->query($sql);
-			$result = $stmt->fetch(\PDO::FETCH_ASSOC);
+			$result = $stmt->fetchAll(\PDO::FETCH_ASSOC);
 
-			return $result;
+            $result_nums = count($result);
+
+            if ($result_nums > 1) { // 如果记录数大于1条，那么直接返回这个二维数组
+                return $result;
+            }
+            else if(1 == $result_nums) { // 如果记录数为一条，返回一维数组即可
+                return $result[0];
+            }
+            else { // 查询结果为空，则直接返回这个空数组
+                return $result;
+            }
     	}
+        
+        /*
+        作用：设置条件
+        返回值：某张表的实例
+        注意点：这些条件默认是AND的关系
+        */
+        public function where($field, $operator, $value) {
+            if (empty($this->where)) {
+                $this->where = ' WHERE ' . $field . ' ' . $operator . ' ' . $value;
+            }
+            else {
+                $this->where .= ' AND ' . $field . ' ' . $operator . ' ' . $value;
+            }
+
+            return $this;
+        }
     }
