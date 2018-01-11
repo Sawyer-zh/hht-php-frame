@@ -177,3 +177,60 @@ $res = $users->where('id', '>', 2)->where('id', '<', 4)->find();
 ```
 
 也就是说，查询条件与查询条件默认是`AND`的关系。
+
+##### 更新数据
+
+更新某条记录的某个字段值：
+
+```php
+<?php
+
+    namespace APP\Home\Controller;
+
+    use HHTCore\Controller\Controller;
+    use APP\Home\Model\UsersModel;
+
+    class IndexController extends Controller {
+    	public function index () {
+    		$users = new UsersModel();
+    		$res = $users->where('id', '=', 1)->update(['status' => 0]);
+    	}
+    }
+```
+
+更新多条记录的某个字段值：
+
+```php
+<?php
+
+    namespace APP\Home\Controller;
+
+    use HHTCore\Controller\Controller;
+    use APP\Home\Model\UsersModel;
+
+    class IndexController extends Controller {
+    	public function index () {
+    		$users = new UsersModel();
+    		$res = $users->where('id', '>', 1)->update(['status' => 0]);
+    	}
+    }
+```
+
+更新某条记录的多个字段值：
+
+```php
+<?php
+
+    namespace APP\Home\Controller;
+
+    use HHTCore\Controller\Controller;
+    use APP\Home\Model\UsersModel;
+
+    class IndexController extends Controller {
+    	public function index () {
+    		$users = new UsersModel();
+    		$res = $users->where('id', '=', 1)->update(['status' => 0, 'name' => 'haha']);
+    	}
+    }
+```
+

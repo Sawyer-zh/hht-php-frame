@@ -35,7 +35,7 @@
         
         /*
         作用：查找满足条件$this->where的那条记录
-
+        返回值：返回查到的结果集(一条记录是以一维数组的形式返回，多条记录是以二维数组的形式返回)
         */
     	public function find() {
             if (empty($this->where)) {
@@ -49,12 +49,15 @@
             $result_nums = count($result);
 
             if ($result_nums > 1) { // 如果记录数大于1条，那么直接返回这个二维数组
+                $this->where = '';
                 return $result;
             }
             else if(1 == $result_nums) { // 如果记录数为一条，返回一维数组即可
+                $this->where = '';
                 return $result[0];
             }
             else { // 查询结果为空，则直接返回这个空数组
+                $this->where = '';
                 return $result;
             }
     	}
@@ -73,5 +76,49 @@
             }
 
             return $this;
+        }
+        
+        /*
+        作用：更新记录
+        返回值：成功：返回更新的记录条数
+               失败：返回 -1
+        */
+        public function update($data = []) {
+            if (empty($data)) {
+                var_dump('empty');
+                return -1;
+            }
+
+            if (empty($this->where)) { // 更新一定要给出条件，避免遗漏了条件导致所有的数据都被改变了
+                return -1;
+            }
+
+            $sql = 'UPDATE ' . $this->tbname . ' SET ';
+            $updates = [];
+
+            foreach ($data as $key => $value) {
+                if (is_string($value)) { // 注意：顺序不能和is_numeric()调换
+                    $updates[] = "{$key} = '{$value}'";
+                }
+                if (is_numeric($value)) {
+                    $updates[] = "{$key} = {$value}";
+                }
+            }
+
+            $sql .= implode(', ', $updates);
+            $sql .= $this->where;
+
+            $nums = $this->pdo->exec($sql);
+
+            $this->where = '';
+
+            if ($nums >= 0) {
+                return $nums;
+            }
+            else {
+                return -1;
+            }
+
+            
         }
     }
