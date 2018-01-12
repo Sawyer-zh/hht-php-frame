@@ -154,12 +154,8 @@ return [
     class IndexController extends Controller {
     	public function index () {
     		$users = new UsersModel();
-
     		$res = $users->where('status', '=', 1)->find();
     		var_dump($res);
-
-    		$a = array('key1' => 'value1', 'key2' => 'value2');
-    		$this->render('Header/index.php', $a);
     	}
     }
 ```
@@ -230,6 +226,45 @@ $res = $users->where('id', '>', 2)->where('id', '<', 4)->find();
     	public function index () {
     		$users = new UsersModel();
     		$res = $users->where('id', '=', 1)->update(['status' => 0, 'name' => 'haha']);
+    	}
+    }
+```
+
+##### 增加一条记录
+
+```php
+<?php
+
+    namespace APP\Home\Controller;
+
+    use HHTCore\Controller\Controller;
+    use APP\Home\Model\UsersModel;
+
+    class IndexController extends Controller {
+    	public function index () {
+    		$users = new UsersModel();
+    		$res = $users->insert([['id', 'name', 'status'], [7, 'zg', 1]]);
+             var_dump($res);
+    	}
+    }
+```
+
+##### 删除记录
+
+删除id为1的记录：
+
+```php
+<?php
+
+    namespace APP\Home\Controller;
+
+    use HHTCore\Controller\Controller;
+    use APP\Home\Model\UsersModel;
+
+    class IndexController extends Controller {
+    	public function index () {
+    		$users = new UsersModel();
+    		$res = $users->where('id', '=', 1)->delete();
     	}
     }
 ```

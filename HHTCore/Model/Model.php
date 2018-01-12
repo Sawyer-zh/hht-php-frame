@@ -118,7 +118,83 @@
             else {
                 return -1;
             }
+        }
+        
+        /*
+        作用：删除记录
+        返回值：成功：返回删除的记录条数（包括0）
+               失败：返回 -1
+        */
+        public function delete() {
+            if (empty($this->where)) { // 更新一定要给出条件，避免遗漏了条件导致所有的数据都被删除了
+                return -1;
+            }
 
-            
+            $sql = "DELETE FROM {$this->tbname} " . $this->where;
+            $nums = $this->pdo->exec($sql);
+            $this->where = '';
+
+            if ($nums >= 0) {
+                return $nums;
+            }
+            else {
+                return -1;
+            }
+        }
+
+        /*
+        作用：增加一条记录
+        返回值：成功：返回插入的记录数
+               失败：返回 -1
+        */
+        public function insert($data = []) {
+            if (empty($data)) {
+                return -1;
+            }
+
+            $sql = "INSERT INTO {$this->tbname} (";
+
+            foreach ($data[0] as $key => $value) { // 拼出字段
+                
+                if ($key == count($data[0]) - 1) {
+                    $sql .= "{$value}";
+                }
+                else {
+                    $sql .= "{$value}, ";
+                }
+            }
+
+            $sql .= ") VALUES(";
+
+            foreach ($data[1] as $key => $value) { // 拼出字段对应的值
+                if (is_string($value)) { // 注意：顺序不能和is_numeric()调换
+                    if ($key == count($data[0]) - 1) {
+                        $sql .= "'{$value}'";
+                    }
+                    else {
+                        $sql .= "'{$value}', ";
+                    }
+                }
+                if (is_numeric($value)) {
+                    if ($key == count($data[0]) - 1) {
+                        $sql .= "{$value}";
+                    }
+                    else {
+                        $sql .= "{$value}, ";
+                    }
+                }
+            }
+
+            $sql .= ")";
+
+            $nums = $this->pdo->exec($sql);
+            $this->where = '';
+
+            if ($nums > 0) {
+                return $nums;
+            }
+            else {
+                return -1;
+            }
         }
     }

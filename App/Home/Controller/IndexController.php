@@ -9,7 +9,9 @@
     	public function index () {
     		$users = new UsersModel();
 
-    		$res = $users->where('id', '>', 1)->update(['status' => 0]);
+    		$res = $users->insert([['id', 'name', 'status'], [7, 'zg', 1]]);
+
+            var_dump($res);
 
     		$a = array('key1' => 'value1', 'key2' => 'value2');
     		$this->render('Header/index.php', $a);
