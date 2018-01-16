@@ -38,10 +38,6 @@
         返回值：返回查到的结果集(一条记录是以一维数组的形式返回，多条记录是以二维数组的形式返回)
         */
     	public function find() {
-            if (empty($this->where)) {
-                exit('please input the condition of query');
-            }
-
     		$sql = 'SELECT * FROM ' . $this->tbname . $this->where;
     		$stmt = $this->pdo->query($sql);
 			$result = $stmt->fetchAll(\PDO::FETCH_ASSOC);

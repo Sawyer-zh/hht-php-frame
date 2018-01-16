@@ -2,6 +2,8 @@
     
     namespace HHTCore\Common;
 
+    use HHTCore\Common\SmartyTpl;
+
     class HHT {
         /*
         *作用：启动项目
@@ -17,9 +19,11 @@
 
             if (is_file($file)) {
                 include $file;
+
                 $controller = '\APP\Home\Controller\\' . $controller;
 
                 $appClassObject = new $controller();
+
                 $appClassObject->$action();
             }
             else {
@@ -36,10 +40,16 @@
             else {
                 try {
                     throw new \Exception("Model don't find...");
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     echo 'Message:' . $e->getMessage() . PHP_EOL;
                 }
             }
+        }
+
+        static public function setSmartyObj () {
+            $obj = new SmartyTpl();           
+
+            return $obj;                             
         }
     }
 

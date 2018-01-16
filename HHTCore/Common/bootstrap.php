@@ -14,6 +14,9 @@
     // 某个应用（即我们的某个项目的根目录，例如：Home）
     defined('APP_NAME') or define('APP_NAME', isset($_GET['app']) ? $_GET['app'] : 'Home');
 
+    // 引入模板引擎（为了方便，所以放在全局命名空间下）
+    include SYS_ROOT_PATH . '/Common/' . 'Smarty/Libs/Smarty.class.php';
+
     include 'HHTCore/Controller/Controller.php';
     include SYS_ROOT_PATH . '/Model/Model.php';
     include 'HHT.php';

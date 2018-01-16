@@ -8,12 +8,11 @@
     class IndexController extends Controller {
     	public function index () {
     		$users = new UsersModel();
-
-    		$res = $users->insert([['id', 'name', 'status'], [7, 'zg', 1]]);
+            $res = $users->where('id', '=', 1)->find();
 
             var_dump($res);
 
-    		$a = array('key1' => 'value1', 'key2' => 'value2');
-    		$this->render('Header/index.php', $a);
+    		$this->assign('name', 'Ned');
+    		$this->display('Header/index.tpl');
     	}
     }
