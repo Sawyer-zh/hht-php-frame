@@ -1,4 +1,5 @@
 <?php
+
     namespace HHTCore\Common;
 
     class SmartyTpl extends \Smarty {
