@@ -17,8 +17,10 @@
     // 引入模板引擎（为了方便，所以放在全局命名空间下）
     include SYS_ROOT_PATH . '/Common/' . 'Smarty/Libs/Smarty.class.php';
 
-    include 'HHTCore/Controller/Controller.php';
+    include SYS_ROOT_PATH . '/Controller/Controller.php';
     include SYS_ROOT_PATH . '/Model/Model.php';
+    include SYS_ROOT_PATH . '/Cache/CacheInterface.php';
+    include SYS_ROOT_PATH . '/Cache/RedisCache.php';
     include 'HHT.php';
 
     // 自动添加Model类文件
