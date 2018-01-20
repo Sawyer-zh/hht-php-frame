@@ -62,20 +62,41 @@ App/Home/View
 
 你可以在`View`文件夹里面创建任意子目录。例如我在View里面建立一个Header目录，里面放一个视图文件`index.php`。
 
-#### 给视图文件传递变量并且显示视图
+#### 给视图文件传递变量
 
-##### render方法
+##### assign方法
 
 ```php
-class IndexController extends Controller {
-    public function index () {
-        $a = array('key1' => 'value1', 'key2' => 'value2');
-        $this->render('Header/index.php', $a);
+<?php
+
+    namespace APP\Home\Controller;
+
+    use HHTCore\Controller\Controller;
+
+    class IndexController extends Controller {
+    	public function index () {
+    		$this->assign('name', 'Ned');
+    	}
     }
-}
 ```
 
-那么，你就可以在`Header/index.php`视图文件中使用变量`$key1`和变量`$key2`了：
+##### 显示视图
+
+```php
+<?php
+
+    namespace APP\Home\Controller;
+
+    use HHTCore\Controller\Controller;
+
+    class IndexController extends Controller {
+    	public function index () {
+    		$this->display('Header/index.tpl');
+    	}
+    }
+```
+
+那么，你就可以在`Header/index.php`视图文件中使用变量`$name`了：
 
 ```html
 <!DOCTYPE html>
@@ -84,11 +105,12 @@ class IndexController extends Controller {
 	<title>Header index.php</title>
 </head>
 <body>
-<?php echo $key1;?>
-<?php echo $key2;?>
+{$name}
 </body>
 </html>
 ```
+
+此时{$name}会被解析为字符串Ned。
 
 ### Model
 
@@ -265,6 +287,62 @@ $res = $users->where('id', '>', 2)->where('id', '<', 4)->find();
     	public function index () {
     		$users = new UsersModel();
     		$res = $users->where('id', '=', 1)->delete();
+    	}
+    }
+```
+
+### 缓存
+
+#### Redis缓存
+
+##### 配置
+
+```php
+<?php
+
+return [
+'host' => '127.0.0.1',
+'port' => 6379
+];
+```
+
+##### 使用字符串数据结构
+
+###### 添加
+
+使用**add方法**，如果缓存中不存在指定的key，那么我们可以添加到缓存中：
+
+```php
+<?php
+
+    namespace APP\Home\Controller;
+
+    use HHTCore\Controller\Controller;
+    use HHTCore\Cache\RedisCache;
+
+    class IndexController extends Controller {
+    	public function index () {
+            $redis = new RedisCache();
+            $redis->add('key1', 'value1', 1);
+    	}
+    }
+```
+
+###### 获得
+
+```php
+<?php
+
+    namespace APP\Home\Controller;
+
+    use HHTCore\Controller\Controller;
+    use HHTCore\Cache\RedisCache;
+
+    class IndexController extends Controller {
+    	public function index () {
+            $redis = new RedisCache();
+            $value = $redis->get('key1');
+            var_dump($value);
     	}
     }
 ```
